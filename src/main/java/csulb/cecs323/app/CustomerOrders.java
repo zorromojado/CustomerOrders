@@ -137,4 +137,41 @@ public class CustomerOrders {
          return products.get(0);
       }
    }// End of the getStyle method
+    public Customers getCustomer (long custID ) {
+      // Run the native query that we defined in the Products entity to find the right style.
+      List<Customers> custs = this.entityManager.createNamedQuery("validateCustomerSelection",
+              Customers.class).setParameter(1, custID).getResultList();
+      if (custs.size() == 0) {
+         // Invalid style name passed in.
+         return null;
+      } else {
+         // Return the style object that they asked for.
+         return custs.get(0);
+      }
+   }// End of the getStyle method
+
+   public void allCustomers () {
+      List<Customers> custs = this.entityManager.createNamedQuery("getAllCustomers",
+              Customers.class).getResultList();
+      for (Customers e: custs) {
+         System.out.println(e.toString());
+      }
+   }
+   public Customers validateCustomerChoice(Scanner in) {
+      Customers toReturn = null;
+      do {
+         try {
+            System.out.println("Here is a list of all of the Customers we have in our database: ");
+            this.allCustomers();
+
+            System.out.println("\nPlease enter in the ID of the customer you would like to see the details of");
+            long userID = in.nextLong();
+            toReturn = getCustomer(userID);
+
+         } catch (Exception e) {
+            System.out.println("invalid input, try again");
+         }
+      } while (toReturn == null);
+      return toReturn;
+   }
 } // End of CustomerOrders class
