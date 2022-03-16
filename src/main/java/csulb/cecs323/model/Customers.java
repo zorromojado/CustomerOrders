@@ -15,6 +15,20 @@ import java.util.Objects;
  */
 
 @Entity
+@NamedNativeQuery(
+        name="validateCustomerSelection",
+        query = "SELECT * " +
+                "FROM   CUSTOMERS " +
+                "WHERE  url = ? ",
+        resultClass = Customers.class
+)
+
+@NamedNativeQuery (
+        name ="getAllCustomers",
+        query = "SELECT *" +
+                "FROM CUSTOMERS",
+        resultClass = Customers.class
+)
 // I could have avoided uniqueConstraints and just done
 // one constraint, but this was more fun.
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames =
